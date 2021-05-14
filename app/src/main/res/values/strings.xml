@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MovieMix</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="movies">Movies</string>
+    <string name="serials">Serials</string>
+    <string name="favorites">Favorites</string>
+    <string name="popular_tv">Popular</string>
+    <string name="see_all">See all</string>
+    <string name="retry">Retry</string>
+</resources>

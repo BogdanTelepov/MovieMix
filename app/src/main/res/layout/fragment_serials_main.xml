@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2C3848"
+    android:orientation="vertical"
+    tools:context=".ui.fragments.SerialsMainFragment">
+
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_serials"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+
+        app:spanCount="3"
+        tools:itemCount="9"
+        tools:listitem="@layout/serial_row_layout" />
+
+    <ProgressBar
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/paginationProgressBar"
+        style="?attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+
+        android:visibility="visible" />
+
+
+</RelativeLayout>

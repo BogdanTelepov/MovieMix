@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#2C3848"
+    android:orientation="vertical"
+    tools:context=".ui.fragments.MovieMainFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                android:id="@+id/worm_dots_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:dotsColor="#F7F7F7"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="8dp"
+                app:dotsSpacing="4dp"
+                app:dotsStrokeColor="#F7F7F7"
+                app:dotsStrokeWidth="2dp"
+                app:layout_constraintBottom_toBottomOf="@id/view_pager"
+                app:layout_constraintEnd_toEndOf="@id/view_pager"
+                app:layout_constraintStart_toStartOf="@id/view_pager" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/tv_popular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:text="@string/popular_tv"
+            android:textColor="#F7F7F7"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/seeMorePopularMovie_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/see_all"
+            android:textColor="#BDBEC2"
+            android:textSize="16sp" />
+
+        <com.todkars.shimmer.ShimmerRecyclerView
+            android:id="@+id/rv_popular_movies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_popular"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:shimmer_recycler_item_count="20"
+            app:shimmer_recycler_layout="@layout/shimmer_layout"
+            tools:listitem="@layout/movie_row_layout" />
+
+        <TextView
+            android:id="@+id/tv_topRated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rv_popular_movies"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:text="Top Rated"
+            android:textColor="#F7F7F7"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/seeMoreTopRatedMovie_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rv_popular_movies"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/see_all"
+            android:textColor="#BDBEC2"
+            android:textSize="16sp" />
+
+        <com.todkars.shimmer.ShimmerRecyclerView
+            android:id="@+id/rv_top_rated_movies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_topRated"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:shimmer_recycler_item_count="20"
+            app:shimmer_recycler_layout="@layout/shimmer_layout"
+            tools:listitem="@layout/movie_row_layout" />
+
+
+    </RelativeLayout>
+
+
+</ScrollView>
