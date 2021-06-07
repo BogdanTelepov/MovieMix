@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/gray"
+    android:orientation="vertical"
     tools:context=".ui.fragments.FavoritesFragment">
 
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/empty_state" />
+
+    <TextView
+        android:id="@+id/tv_isEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/animation_empty_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Favorite List is Empty..."
+        android:textColor="@color/darkGray"
+        android:textSize="24sp"
+        android:visibility="visible" />
 
 
 </RelativeLayout>

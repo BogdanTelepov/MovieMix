@@ -1,4 +1,4 @@
-package ru.btelepov.moviemix.data
+package ru.btelepov.moviemix.data.repository
 
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject

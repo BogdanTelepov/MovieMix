@@ -3,48 +3,39 @@ package ru.btelepov.moviemix.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+
 import android.view.View
-import android.view.ViewGroup
+
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import ru.btelepov.moviemix.R
 import ru.btelepov.moviemix.adapters.MovieAdapter
 import ru.btelepov.moviemix.adapters.ViewPagerAdapter
 import ru.btelepov.moviemix.databinding.FragmentMovieMainBinding
 import ru.btelepov.moviemix.utils.Functions.Companion.observeOnce
 import ru.btelepov.moviemix.utils.Functions.Companion.showSnackBar
 import ru.btelepov.moviemix.utils.NetworkResult
+import ru.btelepov.moviemix.utils.viewBinding
 import ru.btelepov.moviemix.viewmodels.MovieMainViewModel
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class MovieMainFragment : Fragment() {
+class MovieMainFragment : Fragment(R.layout.fragment_movie_main) {
 
-    private var _binding: FragmentMovieMainBinding? = null
-    private val binding get() = _binding!!
+
+    private val binding by viewBinding<FragmentMovieMainBinding>()
 
     private val movieMainViewModel: MovieMainViewModel by viewModels()
     private val popularMoviesAdapter by lazy { MovieAdapter() }
     private val topRatedMoviesAdapter by lazy { MovieAdapter() }
 
     private val viewPagerAdapter: ViewPagerAdapter by lazy { ViewPagerAdapter() }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMovieMainBinding.inflate(inflater, container, false)
-
-
-        return binding.root
-    }
 
 
     private fun setupRv() {
@@ -59,21 +50,36 @@ class MovieMainFragment : Fragment() {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        readPopularMoviesDb()
+        readTopRatedMoviesDb()
+        setupRv()
+        setupViewPager()
         fetchPopularMovies()
         fetchTopRatedMovies()
         fetchNowPlayingMovies()
-        setupRv()
-        readPopularMoviesDb()
-        readTopRatedMoviesDb()
-        setupViewPager()
+        transferData()
+
+    }
+
+    private fun transferData() {
+        popularMoviesAdapter.setOnClick {
+            val bundle = Bundle().apply {
+                putParcelable("movieData", it)
+            }
+
+            findNavController().navigate(R.id.action_movieMainFragment_to_detailsFragment, bundle)
+        }
+
+        topRatedMoviesAdapter.setOnClick {
+            val bundle = Bundle().apply {
+                putParcelable("movieData", it)
+            }
+
+            findNavController().navigate(R.id.action_movieMainFragment_to_detailsFragment, bundle)
+        }
     }
 
     private fun setupViewPager() {
@@ -140,7 +146,6 @@ class MovieMainFragment : Fragment() {
     }
 
 
-
     private fun fetchNowPlayingMovies() {
         Log.i("MainFragment", "Api request! Now Playing Movies")
         movieMainViewModel.getNowPlayingMovies()
@@ -149,7 +154,7 @@ class MovieMainFragment : Fragment() {
                 is NetworkResult.Success -> {
 
                     response.data?.let {
-                        viewPagerAdapter.fetchData(it.results)
+                        it.results?.let { it1 -> viewPagerAdapter.fetchData(it1) }
                     }
                 }
 

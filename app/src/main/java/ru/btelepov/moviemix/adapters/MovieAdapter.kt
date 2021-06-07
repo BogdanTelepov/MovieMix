@@ -9,13 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 import ru.btelepov.moviemix.R
-import ru.btelepov.moviemix.models.Movie
-import ru.btelepov.moviemix.models.MovieResponse
+import ru.btelepov.moviemix.models.movies.MovieData
+import ru.btelepov.moviemix.models.movies.MovieResponse
+import ru.btelepov.moviemix.utils.Constants.Companion.POSTER_URL
 import ru.btelepov.moviemix.utils.CustomDiffUtil
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyViewHolder>() {
 
-    private var movies = emptyList<Movie>()
+    private var movies = emptyList<MovieData>()
+    private var onItemClickListener: ((MovieData) -> Unit)? = null
+
+
+    fun setOnClick(listener: (MovieData) -> Unit) {
+        onItemClickListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
@@ -25,7 +32,14 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentMovie = movies[position]
-        Glide.with(holder.itemView.context).load(currentMovie.posterPath).into(holder.imageCover)
+        Glide.with(holder.itemView.context).load(POSTER_URL + currentMovie.posterPath)
+            .into(holder.imageCover)
+
+        holder.itemView.apply {
+            setOnClickListener {
+                onItemClickListener?.let { it(currentMovie) }
+            }
+        }
 
     }
 
@@ -36,7 +50,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MyViewHolder>() {
     fun setData(newData: MovieResponse) {
         val movieDiffUtil = CustomDiffUtil(movies, newData.results)
         val diffUtilResult = DiffUtil.calculateDiff(movieDiffUtil)
-        movies = newData.results
+        movies = newData.results!!
         diffUtilResult.dispatchUpdatesTo(this)
     }
 

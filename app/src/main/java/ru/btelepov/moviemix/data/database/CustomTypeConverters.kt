@@ -3,8 +3,8 @@ package ru.btelepov.moviemix.data.database
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import ru.btelepov.moviemix.models.Movie
-import ru.btelepov.moviemix.models.MovieResponse
+import ru.btelepov.moviemix.models.movies.MovieData
+import ru.btelepov.moviemix.models.movies.MovieResponse
 import ru.btelepov.moviemix.models.serials.SerialItem
 import ru.btelepov.moviemix.models.serials.SerialResponse
 
@@ -35,13 +35,13 @@ class CustomTypeConverters {
     }
 
     @TypeConverter
-    fun movieToString(movie: Movie): String {
-        return gson.toJson(movie)
+    fun movieToString(movieData: MovieData): String {
+        return gson.toJson(movieData)
     }
 
     @TypeConverter
-    fun stringToMovie(data: String): Movie {
-        val listType = object : TypeToken<Movie>() {}.type
+    fun stringToMovie(data: String): MovieData {
+        val listType = object : TypeToken<MovieData>() {}.type
         return gson.fromJson(data, listType)
     }
 

@@ -1,4 +1,4 @@
-package ru.btelepov.moviemix.data
+package ru.btelepov.moviemix.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import ru.btelepov.moviemix.data.database.MainDao

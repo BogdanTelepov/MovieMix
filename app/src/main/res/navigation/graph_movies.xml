@@ -9,5 +9,18 @@
         android:id="@+id/movieMainFragment"
         android:name="ru.btelepov.moviemix.ui.fragments.MovieMainFragment"
         android:label="fragment_movie_main"
-        tools:layout="@layout/fragment_movie_main" />
+        tools:layout="@layout/fragment_movie_main" >
+        <action
+            android:id="@+id/action_movieMainFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="ru.btelepov.moviemix.ui.fragments.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="movieData"
+            app:argType="ru.btelepov.moviemix.models.MovieData" />
+    </fragment>
 </navigation>

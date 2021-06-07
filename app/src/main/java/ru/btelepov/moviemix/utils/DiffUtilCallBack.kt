@@ -10,6 +10,6 @@ class DiffUtilCallBack : DiffUtil.ItemCallback<SerialItem>() {
     }
 
     override fun areContentsTheSame(oldItem: SerialItem, newItem: SerialItem): Boolean {
-        return oldItem.name == newItem.name
+        return oldItem.name == newItem.name && oldItem.id == newItem.id && oldItem.originalName == newItem.originalName
     }
 }

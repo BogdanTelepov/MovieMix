@@ -5,11 +5,11 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.btelepov.moviemix.data.Repository
+import ru.btelepov.moviemix.data.repository.Repository
 import ru.btelepov.moviemix.data.database.enteties.MovieEntity
 import ru.btelepov.moviemix.data.database.enteties.PopularMovieEntity
 import ru.btelepov.moviemix.data.database.enteties.TopRatedMovieEntity
-import ru.btelepov.moviemix.models.MovieResponse
+import ru.btelepov.moviemix.models.movies.MovieResponse
 import ru.btelepov.moviemix.utils.Functions.Companion.handleMovieResponse
 import ru.btelepov.moviemix.utils.Functions.Companion.hasInternetConnection
 
@@ -128,10 +128,7 @@ class MovieMainViewModel @Inject constructor(
         }
     }
 
-    private fun offlineCacheMovies(movieResponse: MovieResponse) {
-        val movieEntity = MovieEntity(movieResponse)
-        insertMovieItem(movieEntity)
-    }
+
 
     private fun offlineCacheTopRatedMovies(movieResponse: MovieResponse) {
         val topRatedMovieEntity = TopRatedMovieEntity(movieResponse)

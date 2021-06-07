@@ -2,16 +2,12 @@ package ru.btelepov.moviemix.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import ru.btelepov.moviemix.data.Repository
+import ru.btelepov.moviemix.data.repository.Repository
 import ru.btelepov.moviemix.data.database.enteties.SerialEntity
-import ru.btelepov.moviemix.models.serials.SerialItem
 import ru.btelepov.moviemix.models.serials.SerialResponse
 
 
@@ -67,7 +63,7 @@ class SerialsMainViewModel @Inject constructor(
                 if (serialList != null) {
                     offlineCacheSerials(serialList)
                 }
-            } catch (t: Throwable) {
+            } catch (t: Exception) {
                 when (t) {
                     is IOException -> serialListResponse.value =
                         NetworkResult.Error("No Internet Connection :(")

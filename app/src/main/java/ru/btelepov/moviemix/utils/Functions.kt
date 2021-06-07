@@ -12,8 +12,7 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Response
 import ru.btelepov.moviemix.MyApplication
-import ru.btelepov.moviemix.models.MovieResponse
-import ru.btelepov.moviemix.models.serials.SerialResponse
+import ru.btelepov.moviemix.models.movies.MovieResponse
 import ru.btelepov.moviemix.utils.Constants.Companion.APP_ACTIVITY
 
 class Functions {
@@ -35,9 +34,7 @@ class Functions {
         }
 
 
-
-
-        fun handleMovieResponse(response: Response<MovieResponse>): NetworkResult<MovieResponse> {
+        fun  handleMovieResponse(response: Response<MovieResponse>): NetworkResult<MovieResponse> {
             when {
                 response.message().toString().contains("timeout") -> {
                     return NetworkResult.Error("Timeout")
@@ -45,7 +42,8 @@ class Functions {
                 response.code() == 402 -> {
                     return NetworkResult.Error("API Key Limited")
                 }
-                response.body()!!.results.isNullOrEmpty() -> {
+
+                response.body()?.results.isNullOrEmpty()->{
                     return NetworkResult.Error("Movie Not Found")
                 }
 

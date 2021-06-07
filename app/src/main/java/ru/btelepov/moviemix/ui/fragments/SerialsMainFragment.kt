@@ -3,39 +3,39 @@ package ru.btelepov.moviemix.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+
 import android.view.View
-import android.view.ViewGroup
+
 import android.widget.AbsListView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
-import androidx.paging.CombinedLoadStates
-
 import androidx.recyclerview.widget.GridLayoutManager
+
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
-import ru.btelepov.moviemix.adapters.SerialAdapterPaging
+import kotlinx.coroutines.launch
+import ru.btelepov.moviemix.R
+
 import ru.btelepov.moviemix.adapters.SerialListAdapter
 import ru.btelepov.moviemix.databinding.FragmentSerialsMainBinding
 import ru.btelepov.moviemix.utils.Functions.Companion.observeOnce
 import ru.btelepov.moviemix.utils.Functions.Companion.showSnackBar
 import ru.btelepov.moviemix.utils.NetworkResult
-import ru.btelepov.moviemix.utils.PagingLoadStateAdapter
+
+import ru.btelepov.moviemix.utils.viewBinding
 import ru.btelepov.moviemix.viewmodels.SerialsMainViewModel
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class SerialsMainFragment : Fragment() {
+class SerialsMainFragment : Fragment(R.layout.fragment_serials_main) {
 
-    private var _binding: FragmentSerialsMainBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding<FragmentSerialsMainBinding>()
 
 
     private val serialsMainViewModel: SerialsMainViewModel by viewModels()
@@ -49,18 +49,11 @@ class SerialsMainFragment : Fragment() {
     var isScrolling = false
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentSerialsMainBinding.inflate(inflater, container, false)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         readDatabase()
         setupRv()
         fetchSerials()
-
-
-        return binding.root
     }
 
 
@@ -71,14 +64,17 @@ class SerialsMainFragment : Fragment() {
 //            }
 //        }
 
-
         serialsMainViewModel.getSerialList()
         serialsMainViewModel.serialListResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResult.Success -> {
-
+                    Log.i("SerialFragment", "Read API!")
                     isLoading = false
-                    binding.paginationProgressBar.visibility = View.INVISIBLE
+                    showLoading(isLoading)
+                    binding.linearLayout.visibility = View.GONE
+                    binding.animationLoading.visibility = View.GONE
+
+
 
                     response.data?.let {
                         serialListAdapter.differ.submitList(it.serialItems.toList())
@@ -92,16 +88,19 @@ class SerialsMainFragment : Fragment() {
                 is NetworkResult.Error -> {
 
                     isLoading = false
+                    showLoading(isLoading)
                     loadFromCache()
-                    binding.paginationProgressBar.visibility = View.INVISIBLE
+                    binding.linearLayout.visibility = View.GONE
+                    binding.animationLoading.visibility = View.GONE
                     showSnackBar(response.message.toString(), binding.root)
 
                 }
                 is NetworkResult.Loading -> {
 
                     isLoading = true
-
-                    binding.paginationProgressBar.visibility = View.VISIBLE
+                    showLoading(isLoading = isLoading)
+                    binding.linearLayout.visibility = View.VISIBLE
+                    binding.animationLoading.visibility = View.VISIBLE
 
 
                 }
@@ -173,11 +172,25 @@ class SerialsMainFragment : Fragment() {
         lifecycleScope.launch {
             serialsMainViewModel.readSerialItems.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
-                    binding.paginationProgressBar.visibility = View.INVISIBLE
+                    binding.animationLoading.visibility = View.INVISIBLE
                     serialListAdapter.differ.submitList(database[0].serialResponse.serialItems.toList())
                 }
             }
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        when (isLoading) {
+            true -> showAnimation(R.raw.loading_animation)
+        }
+    }
+
+    private fun showAnimation(animationRes: Int) {
+        binding.animationLoading.visibility = View.VISIBLE
+        binding.animationLoading.setAnimation(animationRes)
+        binding.animationLoading.playAnimation()
+
+
     }
 
 

@@ -7,12 +7,13 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.btelepov.moviemix.R
-import ru.btelepov.moviemix.models.Movie
+import ru.btelepov.moviemix.models.movies.MovieData
+import ru.btelepov.moviemix.utils.Constants.Companion.BACKDROP_PATH_URL
 
 class ViewPagerAdapter() :
     RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>() {
 
-    private var movies = emptyList<Movie>()
+    private var movies = emptyList<MovieData>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -24,7 +25,8 @@ class ViewPagerAdapter() :
     }
 
     override fun onBindViewHolder(holder: ViewPagerAdapter.Pager2ViewHolder, position: Int) {
-        Glide.with(holder.itemView.context).load(movies[position].backdropPath)
+        val currentMovie = movies[position]
+        Glide.with(holder.itemView.context).load(BACKDROP_PATH_URL + currentMovie.backdropPath)
             .into(holder.imageItem)
     }
 
@@ -32,7 +34,7 @@ class ViewPagerAdapter() :
         return movies.size / 2
     }
 
-    fun fetchData(newData: List<Movie>) {
+    fun fetchData(newData: List<MovieData>) {
         this.movies = newData
         notifyDataSetChanged()
     }

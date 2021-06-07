@@ -8,27 +8,17 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import ru.btelepov.moviemix.R
 
 import ru.btelepov.moviemix.models.serials.SerialItem
-import ru.btelepov.moviemix.models.serials.SerialResponse
-import ru.btelepov.moviemix.utils.Constants.Companion.IMAGE_URL
-import ru.btelepov.moviemix.utils.CustomDiffUtil
+import ru.btelepov.moviemix.utils.Constants.Companion.POSTER_URL
+import ru.btelepov.moviemix.utils.DiffUtilCallBack
 
 class SerialListAdapter : RecyclerView.Adapter<SerialListAdapter.MyViewHolder>() {
 
 
-    private val differCallBack = object : DiffUtil.ItemCallback<SerialItem>() {
-        override fun areItemsTheSame(oldItem: SerialItem, newItem: SerialItem): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: SerialItem, newItem: SerialItem): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    val differ = AsyncListDiffer(this, differCallBack)
+    val differ = AsyncListDiffer(this, DiffUtilCallBack())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
@@ -38,7 +28,9 @@ class SerialListAdapter : RecyclerView.Adapter<SerialListAdapter.MyViewHolder>()
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentSerial = differ.currentList[position]
-        Glide.with(holder.itemView.context).load(IMAGE_URL + currentSerial.posterPath)
+        Glide.with(holder.itemView.context).load(POSTER_URL + currentSerial.posterPath)
+            .placeholder(R.drawable.progress_animation)
+            .error(R.drawable.ic_error)
             .into(holder.imageCover)
 
     }

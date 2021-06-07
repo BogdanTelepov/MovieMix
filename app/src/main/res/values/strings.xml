@@ -8,4 +8,8 @@
     <string name="popular_tv">Popular</string>
     <string name="see_all">See all</string>
     <string name="retry">Retry</string>
+
+    <string name="error_internal_server">Internal Server Error</string>
+    <string name="error_network_connection">Network Connection Error</string>
+    <string name="error_network_timeout">Network Timeout Error</string>
 </resources>

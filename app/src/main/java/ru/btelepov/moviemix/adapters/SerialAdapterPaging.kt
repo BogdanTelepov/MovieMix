@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.btelepov.moviemix.R
 import ru.btelepov.moviemix.models.serials.SerialItem
-import ru.btelepov.moviemix.utils.Constants.Companion.IMAGE_URL
+import ru.btelepov.moviemix.utils.Constants.Companion.POSTER_URL
 import ru.btelepov.moviemix.utils.DiffUtilCallBack
 
 class SerialAdapterPaging() :
@@ -32,7 +32,7 @@ class SerialAdapterPaging() :
         private val imageView: ImageView = view.findViewById(R.id.itemSerial_cover)
 
         fun bindSerial(content: SerialItem) {
-            Picasso.get().load(IMAGE_URL + content.posterPath).into(imageView)
+            Picasso.get().load(POSTER_URL + content.posterPath).into(imageView)
         }
     }
 

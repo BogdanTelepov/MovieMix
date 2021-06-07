@@ -1,14 +1,14 @@
-package ru.btelepov.moviemix.data
+package ru.btelepov.moviemix.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
-import ru.btelepov.moviemix.data.network.MovieApi
+import ru.btelepov.moviemix.data.network.SerialApi
 import ru.btelepov.moviemix.models.serials.SerialItem
 import java.io.IOException
 
 
-class SerialsPagingSource(private val movieApi: MovieApi) : PagingSource<Int, SerialItem>() {
+class SerialsPagingSource(private val serialApi: SerialApi) : PagingSource<Int, SerialItem>() {
 
     override fun getRefreshKey(state: PagingState<Int, SerialItem>): Int {
         return 1
@@ -19,7 +19,7 @@ class SerialsPagingSource(private val movieApi: MovieApi) : PagingSource<Int, Se
 
 
         return try {
-            val response = movieApi.getTvPopular(page = position)
+            val response = serialApi.getTvPopular(page = position)
             val serials = response.body()!!.serialItems
             LoadResult.Page(
                 data = serials,
