@@ -5,10 +5,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Response
 import ru.btelepov.moviemix.MyApplication
@@ -34,7 +36,7 @@ class Functions {
         }
 
 
-        fun  handleMovieResponse(response: Response<MovieResponse>): NetworkResult<MovieResponse> {
+        fun handleMovieResponse(response: Response<MovieResponse>): NetworkResult<MovieResponse> {
             when {
                 response.message().toString().contains("timeout") -> {
                     return NetworkResult.Error("Timeout")
@@ -43,7 +45,7 @@ class Functions {
                     return NetworkResult.Error("API Key Limited")
                 }
 
-                response.body()?.results.isNullOrEmpty()->{
+                response.body()?.results.isNullOrEmpty() -> {
                     return NetworkResult.Error("Movie Not Found")
                 }
 
@@ -78,4 +80,13 @@ class Functions {
         }
 
     }
+
+
+    fun ImageView.load(url: String) {
+        MyApplication.getContext()?.let {
+            Glide.with(it).load(Constants.POSTER_URL + url)
+                .into(this)
+        }
+    }
+
 }
